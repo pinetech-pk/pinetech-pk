@@ -146,6 +146,15 @@ body {
   .dark .border-pine {
     border-color: var(--pine-800);
   }
+
+  /* 3D Cube utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
 }
 
 /* Keyframes */
