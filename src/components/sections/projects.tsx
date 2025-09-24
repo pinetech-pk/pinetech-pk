@@ -1,7 +1,7 @@
 // src/components/sections/projects.tsx
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -145,6 +145,62 @@ export function ProjectsSection() {
     setTimeout(() => setIsRotating(false), 800);
   };
 
+  // Touch handling for swipe gestures
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isDragging = true;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      e.preventDefault(); // Prevent scrolling while swiping
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = startX - endX;
+      const diffY = startY - endY;
+
+      // Only trigger if horizontal swipe is more significant than vertical
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+          rotateCube("next"); // Swipe left = next
+        } else {
+          rotateCube("prev"); // Swipe right = prev
+        }
+      }
+    };
+
+    const cubeElement = cubeRef.current;
+    if (cubeElement) {
+      cubeElement.addEventListener("touchstart", handleTouchStart, {
+        passive: true,
+      });
+      cubeElement.addEventListener("touchmove", handleTouchMove, {
+        passive: false,
+      });
+      cubeElement.addEventListener("touchend", handleTouchEnd, {
+        passive: true,
+      });
+
+      return () => {
+        cubeElement.removeEventListener("touchstart", handleTouchStart);
+        cubeElement.removeEventListener("touchmove", handleTouchMove);
+        cubeElement.removeEventListener("touchend", handleTouchEnd);
+      };
+    }
+  }, [currentFace, isRotating]);
+
   const getRotation = () => {
     const rotations = [
       "rotateY(0deg)", // Front (Meal Planner)
@@ -190,54 +246,67 @@ export function ProjectsSection() {
               problems with modern technology and strategic thinking.
             </p>
             <p className="text-sm text-muted-foreground">
-              Navigate with arrows or swipe to explore each project
+              <span className="hidden md:inline">
+                Navigate with arrows or swipe to explore each project
+              </span>
+              <span className="md:hidden">
+                Swipe left or right to explore each project
+              </span>
             </p>
           </div>
 
           {/* 3D Cube Container */}
-          <div className="relative max-w-4xl mx-auto mb-16">
-            <div className="perspective-1000 h-96 md:h-[500px] flex items-center justify-center">
+          <div className="relative max-w-4xl mx-auto mb-8">
+            <div className="perspective-1000 min-h-[500px] md:min-h-[600px] flex items-center justify-center py-4 md:py-8">
               <div
                 ref={cubeRef}
                 className="relative preserve-3d transition-transform duration-700 ease-out"
                 style={{
-                  transform: `${getRotation()} scale(0.9)`,
+                  transform: `${getRotation()}`,
                   transformStyle: "preserve-3d",
                 }}
               >
                 {/* Cube faces */}
                 {projects.map((project, index) => {
-                  const faceTransforms = [
-                    "translateZ(200px)", // Front
-                    "rotateY(90deg) translateZ(200px)", // Right
-                    "rotateY(180deg) translateZ(200px)", // Back
-                    "rotateY(270deg) translateZ(200px)", // Left
-                  ];
-
-                  // Calculate if this face is currently visible/front-facing
-                  const isFrontFace = currentFace === index;
                   const isBackFace = (currentFace + 2) % 4 === index;
+                  const isFrontFace = currentFace === index;
+                  // Hide side faces when not adjacent to current face for better text clarity
+                  const isAdjacentFace =
+                    Math.abs(currentFace - index) === 1 ||
+                    Math.abs(currentFace - index) === 3;
+                  const shouldShow = isFrontFace || isAdjacentFace;
+
+                  // Fixed cube face transforms - maintain proper 3D structure
+                  const faceTransforms = [
+                    "translateZ(180px)", // Front
+                    "rotateY(90deg) translateZ(180px)", // Right
+                    "rotateY(180deg) translateZ(180px)", // Back
+                    "rotateY(270deg) translateZ(180px)", // Left
+                  ];
 
                   return (
                     <div
                       key={project.id}
-                      className="absolute inset-0 w-80 h-80 md:w-96 md:h-96"
+                      className="absolute"
                       style={{
                         transform: faceTransforms[index],
                         transformStyle: "preserve-3d",
-                        opacity: isBackFace ? 0 : 1,
+                        opacity: isBackFace ? 0 : shouldShow ? 1 : 0.3,
                         visibility: isBackFace ? "hidden" : "visible",
+                        width: "340px",
+                        height: "480px",
+                        left: "-170px", // Center horizontally
+                        top: "-240px", // Center vertically
                       }}
                     >
                       <Card
                         className={cn(
-                          "w-full h-full p-8 cursor-pointer transition-all duration-300 relative",
+                          "w-full h-full p-6 cursor-pointer transition-all duration-300 relative overflow-hidden",
                           project.bgColor,
                           "hover:shadow-2xl border-2",
-                          currentFace === index
-                            ? "border-pine-500 shadow-2xl z-10 backdrop-blur-sm"
-                            : "border-border/50",
-                          isFrontFace && "shadow-[0_0_50px_rgba(0,0,0,0.3)]"
+                          isFrontFace
+                            ? "border-pine-500 shadow-2xl z-10 bg-opacity-95 backdrop-blur-sm"
+                            : "border-border/50"
                         )}
                         onClick={() =>
                           setSelectedProject(
@@ -325,32 +394,32 @@ export function ProjectsSection() {
               </div>
             </div>
 
-            {/* Navigation controls */}
-            <div className="absolute top-1/2 -translate-y-1/2 left-4 md:left-8">
+            {/* Navigation controls - Hidden on mobile, visible on desktop */}
+            <div className="absolute top-1/2 -translate-y-1/2 left-2 md:left-4 hidden md:block">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => rotateCube("prev")}
                 disabled={isRotating}
-                className="bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                className="bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-md"
               >
                 <ChevronLeft className="h-6 w-6" />
               </Button>
             </div>
-            <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-8">
+            <div className="absolute top-1/2 -translate-y-1/2 right-2 md:right-4 hidden md:block">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => rotateCube("next")}
                 disabled={isRotating}
-                className="bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                className="bg-background/80 backdrop-blur-sm hover:bg-background/90 shadow-md"
               >
                 <ChevronRight className="h-6 w-6" />
               </Button>
             </div>
 
             {/* Project indicator dots */}
-            <div className="flex justify-center space-x-2 mt-8">
+            <div className="flex justify-center space-x-2 mt-4 md:mt-6">
               {projects.map((_, index) => (
                 <button
                   key={index}
