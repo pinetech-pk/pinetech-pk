@@ -18,6 +18,9 @@ const projects = [
 ];
 
 export function Footer() {
+  // Use a fixed date to avoid hydration mismatch
+  const currentDate = "2024";
+
   return (
     <footer className="bg-muted/50 border-t border-border">
       <div className="container px-4 py-16">
@@ -79,15 +82,15 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-muted-foreground mb-4 md:mb-0">
-            © 2024 PineTech.pk. Built with Next.js, TypeScript, and Tailwind
-            CSS.
+            © {currentDate} PineTech.pk. Built with Next.js, TypeScript, and
+            Tailwind CSS.
           </div>
           <div className="flex items-center space-x-4">
             <Badge variant="pine" className="text-xs">
               Open for Projects
             </Badge>
             <span className="text-xs text-muted-foreground">
-              Last updated: {new Date().toLocaleDateString()}
+              Ready for new challenges
             </span>
           </div>
         </div>
