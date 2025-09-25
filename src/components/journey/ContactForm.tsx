@@ -1,13 +1,15 @@
 import { FormField } from "./utility-components";
 
+export interface FinalFormData {
+  name?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+}
+
 interface ContactFormProps {
-  formData: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    message?: string;
-  } | null;
-  onUpdateFormData: (data: any) => void;
+  formData: FinalFormData | null;
+  onUpdateFormData: (data: FinalFormData | null) => void;
   submissionError?: string | null;
 }
 
@@ -16,8 +18,11 @@ export function ContactForm({
   onUpdateFormData,
   submissionError,
 }: ContactFormProps) {
-  const updateField = (field: string, value: string) => {
-    onUpdateFormData({ ...formData, [field]: value });
+  type Field = keyof FinalFormData;
+
+  const updateField = (field: Field, value: string) => {
+    const next: FinalFormData = { ...(formData ?? {}), [field]: value };
+    onUpdateFormData(next);
   };
 
   return (
@@ -33,7 +38,7 @@ export function ContactForm({
           label="Full Name"
           type="text"
           placeholder="Enter your full name"
-          value={formData?.name || ""}
+          value={formData?.name ?? ""}
           onChange={(value) => updateField("name", value)}
           required
         />
@@ -42,7 +47,7 @@ export function ContactForm({
           label="Email Address"
           type="email"
           placeholder="your.email@example.com"
-          value={formData?.email || ""}
+          value={formData?.email ?? ""}
           onChange={(value) => updateField("email", value)}
           required
         />
@@ -51,7 +56,7 @@ export function ContactForm({
           label="Phone Number"
           type="tel"
           placeholder="+92 XXX XXX XXXX"
-          value={formData?.phone || ""}
+          value={formData?.phone ?? ""}
           onChange={(value) => updateField("phone", value)}
         />
 
@@ -59,13 +64,12 @@ export function ContactForm({
           label="Additional Message"
           type="textarea"
           placeholder="Any specific questions or details you'd like to share..."
-          value={formData?.message || ""}
+          value={formData?.message ?? ""}
           onChange={(value) => updateField("message", value)}
           rows={4}
         />
       </div>
 
-      {/* Submission error message */}
       {submissionError && (
         <div className="mb-6 p-4 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg">
           <p className="text-red-600 dark:text-red-400 text-sm">

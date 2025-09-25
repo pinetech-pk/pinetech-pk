@@ -107,7 +107,7 @@ export function HeroSection() {
             <p className="text-sm text-muted-foreground leading-relaxed">
               My journey spans{" "}
               <span className="font-semibold text-foreground">
-                9 years building the "What Price" brand
+                9 years building the &quot;What Price&quot; brand
               </span>
               ,
               <span className="font-semibold text-foreground">

@@ -1,18 +1,45 @@
 import { useState, useCallback } from "react";
 
-// Types for form data
+// useUserJourney.ts
+
+// ──────────────────────────────────────────────
+// Step-specific data types
+// ──────────────────────────────────────────────
+export interface Step1Data {
+  skills: string[];
+}
+
+export interface Step2Data {
+  stage: "junior" | "mid" | "senior" | "freelancer";
+}
+
+export interface Step3Data {
+  interest: "salary" | "equity" | "learning" | "leadership";
+}
+
+export interface Step4Data {
+  availability: "immediate" | "two_weeks" | "one_month" | "exploring";
+  commitment: "full_time" | "part_time" | "contract" | "side_project";
+}
+
+// Contact / final form
+export interface FinalFormData {
+  name?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+}
+
+// ──────────────────────────────────────────────
+// Master FormData type for the entire journey
+// ──────────────────────────────────────────────
 export interface FormData {
   userType: "developer" | "investor" | "entrepreneur" | null;
-  step1: any;
-  step2: any;
-  step3: any;
-  step4: any;
-  finalForm: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    message?: string;
-  } | null;
+  step1: Step1Data | null;
+  step2: Step2Data | null;
+  step3: Step3Data | null;
+  step4: Step4Data | null;
+  finalForm: FinalFormData | null;
 }
 
 export const useUserJourney = () => {
