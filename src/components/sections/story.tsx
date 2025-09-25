@@ -224,7 +224,9 @@ export function StorySection() {
           <motion.div variants={fadeInUp} className="mt-16">
             <Card className="p-8 bg-pine-gradient text-white">
               <CardContent className="p-0 text-center">
-                <h3 className="text-2xl font-bold mb-4">Today's Reality</h3>
+                <h3 className="text-2xl font-bold mb-4">
+                  Today&apos;s Reality
+                </h3>
                 <p className="text-lg leading-relaxed mb-6 text-pine-100">
                   I am actively developing my own applications —{" "}
                   <span className="font-semibold">

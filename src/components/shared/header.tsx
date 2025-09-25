@@ -57,7 +57,7 @@ export function Header() {
           {/* CTA Button */}
           <div className="hidden md:flex">
             <Button variant="pine" size="sm" asChild>
-              <Link href="/lets-work-together">Let's Work Together</Link>
+              <Link href="/lets-work-together">Let&apos;s Work Together</Link>
             </Button>
           </div>
 
@@ -92,7 +92,9 @@ export function Header() {
               ))}
               <div className="pt-4">
                 <Button variant="pine" size="sm" className="w-full" asChild>
-                  <Link href="/lets-work-together">Let's Work Together</Link>
+                  <Link href="/lets-work-together">
+                    Let&apos;s Work Together
+                  </Link>
                 </Button>
               </div>
             </nav>

@@ -116,7 +116,7 @@ export function ContactSection() {
               variant="outline"
               className="mb-4 text-pine-600 dark:text-pine-400 border-pine-200 dark:border-pine-800"
             >
-              Let's Work Together
+              Let&apos;s Work Together
             </Badge>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               Ready to Build

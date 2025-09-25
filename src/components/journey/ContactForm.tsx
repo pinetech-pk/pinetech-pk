@@ -24,7 +24,7 @@ export function ContactForm({
     <div>
       <h2 className="text-2xl font-bold mb-2">Your Contact Details</h2>
       <p className="text-muted-foreground mb-8">
-        Great! Now let's get your details so we can connect with you about
+        Great! Now let&apos;s get your details so we can connect with you about
         opportunities.
       </p>
 

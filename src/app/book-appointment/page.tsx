@@ -57,8 +57,8 @@ export default function BookAppointmentPage() {
                   </span>
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Select the type of collaboration you're interested in. We'll
-                  discuss your project needs and timeline during our
+                  Select the type of collaboration you&apos;re interested in.
+                  We&apos;ll discuss your project needs and timeline during our
                   consultation.
                 </p>
               </div>

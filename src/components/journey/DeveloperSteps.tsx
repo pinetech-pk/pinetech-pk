@@ -16,7 +16,9 @@ export function DeveloperSteps({
     case 1:
       return (
         <div>
-          <h2 className="text-2xl font-bold mb-2">What's Your Tech Stack?</h2>
+          <h2 className="text-2xl font-bold mb-2">
+            What&apos;s Your Tech Stack?
+          </h2>
           <p className="text-muted-foreground mb-8">
             Help us understand your current skills so we can find the perfect
             project match.

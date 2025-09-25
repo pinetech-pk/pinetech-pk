@@ -36,7 +36,7 @@ export function SuccessPage({ submissionId }: SuccessPageProps) {
       <div className="bg-muted/30 p-6 rounded-lg mb-8">
         <h3 className="font-semibold mb-4">What happens next?</h3>
         <div className="text-sm text-muted-foreground space-y-2">
-          <p>• We'll review your responses and project fit</p>
+          <p>• We&apos;ll review your responses and project fit</p>
           <p>• You may receive an email within 3-7 days</p>
           <p>• Response time may vary based on current project availability</p>
         </div>
