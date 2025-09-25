@@ -117,13 +117,24 @@ export function StorySection() {
                         continuously learn and evolve
                       </span>
                       , proving that age is never a barrier to growth. This
-                      passion has become a strength: I not only build scalable,
-                      modern solutions but also keep my{" "}
+                      passion has become a strength: I design and ship
+                      <span className="font-semibold text-foreground">
+                        {" "}
+                        production-grade
+                      </span>{" "}
+                      software—fast, secure, and maintainable. Engagements are{" "}
                       <span className="text-pine-600 dark:text-pine-400 font-semibold">
-                        pricing highly competitive
+                        scoped around outcomes
+                      </span>{" "}
+                      with
+                      <span className="text-pine-600 dark:text-pine-400 font-semibold">
+                        clear milestones
+                      </span>{" "}
+                      and
+                      <span className="text-pine-600 dark:text-pine-400 font-semibold">
+                        transparent pricing
                       </span>
-                      , giving you the advantage of high-quality work at very
-                      reasonable cost.
+                      .
                     </p>
                   </div>
                 </div>
@@ -140,14 +151,14 @@ export function StorySection() {
                     <Target className="h-8 w-8 text-pine-600 dark:text-pine-400 mx-auto mb-2" />
                     <div className="font-semibold">Technical Excellence</div>
                     <div className="text-sm text-muted-foreground">
-                      Modern full-stack solutions
+                      Production-grade full-stack engineering
                     </div>
                   </div>
                   <div className="text-center">
                     <TrendingUp className="h-8 w-8 text-pine-600 dark:text-pine-400 mx-auto mb-2" />
-                    <div className="font-semibold">Competitive Edge</div>
+                    <div className="font-semibold">Strategic Advantage</div>
                     <div className="text-sm text-muted-foreground">
-                      Experience + affordable pricing
+                      Outcome-driven, transparent engagements
                     </div>
                   </div>
                 </div>

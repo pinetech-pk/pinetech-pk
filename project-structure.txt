@@ -1,0 +1,50 @@
+src
+ ┣ app
+ ┃ ┣ api
+ ┃ ┃ ┣ test-db
+ ┃ ┃ ┃ ┗ route.ts
+ ┃ ┃ ┗ user-submissions
+ ┃ ┃ ┃ ┗ route.ts
+ ┃ ┣ book-appointment
+ ┃ ┃ ┗ page.tsx
+ ┃ ┣ database-test
+ ┃ ┃ ┗ page.tsx
+ ┃ ┣ lets-work-together
+ ┃ ┃ ┗ page.tsx
+ ┃ ┣ favicon.ico
+ ┃ ┣ globals.css
+ ┃ ┣ layout.tsx
+ ┃ ┗ page.tsx
+ ┣ components
+ ┃ ┣ journey
+ ┃ ┃ ┣ CategorySelector.tsx
+ ┃ ┃ ┣ ContactForm.tsx
+ ┃ ┃ ┣ DeveloperSteps.tsx
+ ┃ ┃ ┣ SuccessPage.tsx
+ ┃ ┃ ┣ UserJourney.tsx
+ ┃ ┃ ┗ utility-components.tsx
+ ┃ ┣ sections
+ ┃ ┃ ┣ contact.tsx
+ ┃ ┃ ┣ hero.tsx
+ ┃ ┃ ┣ projects.tsx
+ ┃ ┃ ┣ skills.tsx
+ ┃ ┃ ┗ story.tsx
+ ┃ ┣ shared
+ ┃ ┃ ┣ footer.tsx
+ ┃ ┃ ┣ header.tsx
+ ┃ ┃ ┗ logo.tsx
+ ┃ ┣ ui
+ ┃ ┃ ┣ badge.tsx
+ ┃ ┃ ┣ button.tsx
+ ┃ ┃ ┣ card.tsx
+ ┃ ┃ ┗ separator.tsx
+ ┃ ┗ database-test.tsx
+ ┣ hooks
+ ┃ ┣ useFormSubmission.ts
+ ┃ ┗ useUserJourney.ts
+ ┗ lib
+ ┃ ┣ db
+ ┃ ┃ ┣ index.ts
+ ┃ ┃ ┗ schema.ts
+ ┃ ┣ constants.ts
+ ┃ ┗ utils.ts
