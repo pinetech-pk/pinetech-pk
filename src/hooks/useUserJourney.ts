@@ -42,8 +42,11 @@ export interface FormData {
   finalForm: FinalFormData | null;
 }
 
+// Type mapping for updateFormData function
+type FormDataValue = FormData[keyof FormData];
+
 export const useUserJourney = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [formData, setFormData] = useState<FormData>({
     userType: null,
     step1: null,
@@ -71,10 +74,13 @@ export const useUserJourney = () => {
     if (currentStep > 0) setCurrentStep(currentStep - 1);
   }, [currentStep]);
 
-  // Update form data for specific step
-  const updateFormData = useCallback((step: keyof FormData, data: any) => {
-    setFormData((prev) => ({ ...prev, [step]: data }));
-  }, []);
+  // Update form data for specific step - Fixed typing
+  const updateFormData = useCallback(
+    <K extends keyof FormData>(step: K, data: FormData[K]) => {
+      setFormData((prev) => ({ ...prev, [step]: data }));
+    },
+    []
+  );
 
   // Validation logic
   const isStepValid = useCallback(
