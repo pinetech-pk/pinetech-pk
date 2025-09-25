@@ -9,11 +9,9 @@ import {
   ChevronLeft,
   ChevronRight,
   ExternalLink,
-  Code,
   Users,
   TrendingUp,
   Heart,
-  DollarSign,
   BarChart3,
   Globe,
 } from "lucide-react";

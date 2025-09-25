@@ -31,7 +31,11 @@ export function DatabaseTest() {
         setMessage("Error fetching records");
       }
     } catch (error) {
-      setMessage("Network error");
+      setMessage(
+        typeof error === "object" && error !== null && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "An error occurred"
+      );
     }
     setLoading(false);
   };
@@ -57,7 +61,11 @@ export function DatabaseTest() {
         setMessage("Error creating record");
       }
     } catch (error) {
-      setMessage("Network error");
+      setMessage(
+        typeof error === "object" && error !== null && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "An error occurred"
+      );
     }
     setLoading(false);
   };
@@ -77,7 +85,11 @@ export function DatabaseTest() {
         setMessage("Error deleting record");
       }
     } catch (error) {
-      setMessage("Network error");
+      setMessage(
+        typeof error === "object" && error !== null && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "An error occurred"
+      );
     }
     setLoading(false);
   };

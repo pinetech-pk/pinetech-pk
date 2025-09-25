@@ -11,26 +11,50 @@ import { ArrowRight, ArrowLeft, Code, TrendingUp, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// Types for form data
+// ───────────────────────────────────────────────────────────────────────────────
+// Types
+// ───────────────────────────────────────────────────────────────────────────────
+
+type UserType = "developer" | "investor" | "entrepreneur";
+
+interface Step1Data {
+  skills: string[];
+}
+
+interface Step2Data {
+  stage: string; // could be narrowed to "junior" | "mid" | "senior" | "freelancer"
+}
+
+interface Step3Data {
+  interest: string; // could be narrowed to "salary" | "equity" | "learning" | "leadership"
+}
+
+interface Step4Data {
+  availability: string; // "immediate" | "two_weeks" | "one_month" | "exploring"
+  commitment: string; // "full_time" | "part_time" | "contract" | "side_project"
+}
+
+interface FinalFormData {
+  name?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+}
+
 interface FormData {
-  userType: "developer" | "investor" | "entrepreneur" | null;
-  step1: any;
-  step2: any;
-  step3: any;
-  step4: any;
-  finalForm: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    message?: string;
-  } | null;
+  userType: UserType | null;
+  step1: Step1Data | null;
+  step2: Step2Data | null;
+  step3: Step3Data | null;
+  step4: Step4Data | null;
+  finalForm: FinalFormData | null;
 }
 
 // User categories configuration
 const userCategories = [
   {
     id: "developer",
-    title: "I'm a Developer Ready to Level Up",
+    title: "I am a Developer Ready to Level Up",
     description:
       "Join innovative projects with equity opportunities and cutting-edge technology",
     icon: Code,
@@ -58,7 +82,7 @@ const userCategories = [
 ] as const;
 
 export default function LetsWorkTogetherPage() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [formData, setFormData] = useState<FormData>({
     userType: null,
     step1: null,
@@ -79,6 +103,14 @@ export default function LetsWorkTogetherPage() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Typed update function for any field in FormData
+  function updateFormData<K extends keyof FormData>(
+    step: K,
+    data: FormData[K]
+  ) {
+    setFormData((prev) => ({ ...prev, [step]: data }));
+  }
 
   // Submit form to database
   const submitForm = async () => {
@@ -106,7 +138,7 @@ export default function LetsWorkTogetherPage() {
       });
 
       if (response.ok) {
-        const result = await response.json();
+        const result: { id?: number } = await response.json();
         setSubmissionResult({
           success: true,
           id: result.id,
@@ -119,7 +151,7 @@ export default function LetsWorkTogetherPage() {
           message: "Failed to submit form. Please try again.",
         });
       }
-    } catch (error) {
+    } catch {
       setSubmissionResult({
         success: false,
         message: "Network error. Please check your connection and try again.",
@@ -129,25 +161,18 @@ export default function LetsWorkTogetherPage() {
   };
 
   // Step 0: Category Selection
-  const selectCategory = (
-    category: "developer" | "investor" | "entrepreneur"
-  ) => {
-    setFormData((prev) => ({ ...prev, userType: category }));
+  const selectCategory = (category: UserType) => {
+    updateFormData("userType", category);
     setCurrentStep(1);
   };
 
   // Navigation
   const goToNextStep = () => {
-    if (currentStep < 5) setCurrentStep(currentStep + 1);
+    if (currentStep < 5) setCurrentStep((s) => s + 1);
   };
 
   const goToPreviousStep = () => {
-    if (currentStep > 0) setCurrentStep(currentStep - 1);
-  };
-
-  // Update form data for specific step
-  const updateFormData = (step: keyof FormData, data: any) => {
-    setFormData((prev) => ({ ...prev, [step]: data }));
+    if (currentStep > 0) setCurrentStep((s) => s - 1);
   };
 
   // Don't render interactive elements until client is ready
@@ -249,7 +274,9 @@ export default function LetsWorkTogetherPage() {
                               category.bgColor,
                               "border-2 hover:border-pine-200 dark:hover:border-pine-800"
                             )}
-                            onClick={() => selectCategory(category.id)}
+                            onClick={() =>
+                              selectCategory(category.id as UserType)
+                            }
                           >
                             <CardContent className="p-8 text-center">
                               <div
@@ -302,7 +329,7 @@ export default function LetsWorkTogetherPage() {
                             {currentStep === 1 && (
                               <div>
                                 <h2 className="text-2xl font-bold mb-2">
-                                  What's Your Tech Stack?
+                                  What&apos;s Your Tech Stack?
                                 </h2>
                                 <p className="text-muted-foreground mb-8">
                                   Help us understand your current skills so we
@@ -327,23 +354,21 @@ export default function LetsWorkTogetherPage() {
                                       <input
                                         type="checkbox"
                                         className="w-4 h-4 text-pine-600 rounded focus:ring-pine-500"
-                                        checked={
-                                          formData.step1?.skills?.includes(
-                                            skill
-                                          ) || false
-                                        }
+                                        checked={(
+                                          formData.step1?.skills ?? []
+                                        ).includes(skill)}
                                         onChange={(e) => {
-                                          const currentSkills =
-                                            formData.step1?.skills || [];
+                                          const current: Step1Data =
+                                            formData.step1 ?? { skills: [] };
                                           const updatedSkills = e.target.checked
-                                            ? [...currentSkills, skill]
-                                            : currentSkills.filter(
-                                                (s: string) => s !== skill
+                                            ? [...current.skills, skill]
+                                            : current.skills.filter(
+                                                (s) => s !== skill
                                               );
-                                          updateFormData("step1", {
-                                            ...formData.step1,
+                                          const updated: Step1Data = {
                                             skills: updatedSkills,
-                                          });
+                                          };
+                                          updateFormData("step1", updated);
                                         }}
                                       />
                                       <span className="text-sm font-medium">
@@ -399,7 +424,6 @@ export default function LetsWorkTogetherPage() {
                                       )}
                                       onClick={() =>
                                         updateFormData("step2", {
-                                          ...formData.step2,
                                           stage: stage.id,
                                         })
                                       }
@@ -460,7 +484,6 @@ export default function LetsWorkTogetherPage() {
                                       )}
                                       onClick={() =>
                                         updateFormData("step3", {
-                                          ...formData.step3,
                                           interest: interest.id,
                                         })
                                       }
@@ -525,12 +548,17 @@ export default function LetsWorkTogetherPage() {
                                               formData.step4?.availability ===
                                               option.id
                                             }
-                                            onChange={(e) =>
+                                            onChange={(e) => {
+                                              const current: Step4Data =
+                                                formData.step4 ?? {
+                                                  availability: "",
+                                                  commitment: "",
+                                                };
                                               updateFormData("step4", {
-                                                ...formData.step4,
+                                                ...current,
                                                 availability: e.target.value,
-                                              })
-                                            }
+                                              });
+                                            }}
                                           />
                                           <span className="text-sm">
                                             {option.label}
@@ -577,12 +605,17 @@ export default function LetsWorkTogetherPage() {
                                               formData.step4?.commitment ===
                                               option.id
                                             }
-                                            onChange={(e) =>
+                                            onChange={(e) => {
+                                              const current: Step4Data =
+                                                formData.step4 ?? {
+                                                  availability: "",
+                                                  commitment: "",
+                                                };
                                               updateFormData("step4", {
-                                                ...formData.step4,
+                                                ...current,
                                                 commitment: e.target.value,
-                                              })
-                                            }
+                                              });
+                                            }}
                                           />
                                           <span className="text-sm">
                                             {option.label}
@@ -602,8 +635,8 @@ export default function LetsWorkTogetherPage() {
                                   Your Contact Details
                                 </h2>
                                 <p className="text-muted-foreground mb-8">
-                                  Great! Now let's get your details so we can
-                                  connect with you about opportunities.
+                                  Great! Now let&apos;s get your details so we
+                                  can connect with you about opportunities.
                                 </p>
 
                                 <div className="space-y-4 mb-8">
@@ -616,10 +649,10 @@ export default function LetsWorkTogetherPage() {
                                       type="text"
                                       className="w-full p-3 border border-border rounded-lg focus:ring-2 focus:ring-pine-500 focus:border-transparent"
                                       placeholder="Enter your full name"
-                                      value={formData.finalForm?.name || ""}
+                                      value={formData.finalForm?.name ?? ""}
                                       onChange={(e) =>
                                         updateFormData("finalForm", {
-                                          ...formData.finalForm,
+                                          ...(formData.finalForm ?? {}),
                                           name: e.target.value,
                                         })
                                       }
@@ -635,10 +668,10 @@ export default function LetsWorkTogetherPage() {
                                       type="email"
                                       className="w-full p-3 border border-border rounded-lg focus:ring-2 focus:ring-pine-500 focus:border-transparent"
                                       placeholder="your.email@example.com"
-                                      value={formData.finalForm?.email || ""}
+                                      value={formData.finalForm?.email ?? ""}
                                       onChange={(e) =>
                                         updateFormData("finalForm", {
-                                          ...formData.finalForm,
+                                          ...(formData.finalForm ?? {}),
                                           email: e.target.value,
                                         })
                                       }
@@ -656,10 +689,10 @@ export default function LetsWorkTogetherPage() {
                                       type="tel"
                                       className="w-full p-3 border border-border rounded-lg focus:ring-2 focus:ring-pine-500 focus:border-transparent"
                                       placeholder="+92 XXX XXX XXXX"
-                                      value={formData.finalForm?.phone || ""}
+                                      value={formData.finalForm?.phone ?? ""}
                                       onChange={(e) =>
                                         updateFormData("finalForm", {
-                                          ...formData.finalForm,
+                                          ...(formData.finalForm ?? {}),
                                           phone: e.target.value,
                                         })
                                       }
@@ -677,10 +710,10 @@ export default function LetsWorkTogetherPage() {
                                       className="w-full p-3 border border-border rounded-lg focus:ring-2 focus:ring-pine-500 focus:border-transparent"
                                       placeholder="Any specific questions or details you'd like to share..."
                                       rows={4}
-                                      value={formData.finalForm?.message || ""}
+                                      value={formData.finalForm?.message ?? ""}
                                       onChange={(e) =>
                                         updateFormData("finalForm", {
-                                          ...formData.finalForm,
+                                          ...(formData.finalForm ?? {}),
                                           message: e.target.value,
                                         })
                                       }
@@ -735,8 +768,8 @@ export default function LetsWorkTogetherPage() {
                                   </h3>
                                   <div className="text-sm text-muted-foreground space-y-2">
                                     <p>
-                                      • We'll review your responses and project
-                                      fit
+                                      • We&apos;ll review your responses and
+                                      project fit
                                     </p>
                                     <p>
                                       • You may receive an email within 3-7 days

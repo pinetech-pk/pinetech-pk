@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
-import { Badge } from "@/components/ui/badge";
 import { UserJourney } from "@/components/journey/UserJourney";
 
 export default function LetsWorkTogetherPage() {
