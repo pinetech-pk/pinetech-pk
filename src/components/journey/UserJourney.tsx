@@ -38,6 +38,22 @@ export function UserJourney() {
     }
   };
 
+  // Helper function to get step data safely
+  const getStepData = (step: number) => {
+    switch (step) {
+      case 1:
+        return formData.step1;
+      case 2:
+        return formData.step2;
+      case 3:
+        return formData.step3;
+      case 4:
+        return formData.step4;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto">
       {/* Progress indicator */}
@@ -64,9 +80,7 @@ export function UserJourney() {
                 {formData.userType === "developer" && currentStep <= 4 && (
                   <DeveloperSteps
                     step={currentStep}
-                    formData={
-                      formData[`step${currentStep}` as keyof typeof formData]
-                    }
+                    formData={getStepData(currentStep)}
                     onUpdateFormData={updateFormData}
                   />
                 )}
