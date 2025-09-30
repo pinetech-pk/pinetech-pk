@@ -23,25 +23,25 @@ const contactMethods = [
   {
     icon: Mail,
     title: "Email",
-    value: "hello@pinetech.pk",
+    value: "contact@pinetech.pk",
     description: "For project inquiries and partnerships",
-    action: "mailto:hello@pinetech.pk",
+    action: "mailto:contact@pinetech.pk",
     primary: true,
   },
   {
     icon: MessageSquare,
     title: "WhatsApp",
-    value: "+92 XXX XXX XXXX",
+    value: "+92 333 333 6282",
     description: "Quick discussions and consultations",
-    action: "https://wa.me/92XXXXXXXXX",
+    action: "https://wa.me/923333336282",
     primary: false,
   },
   {
     icon: Phone,
     title: "Call",
-    value: "+92 XXX XXX XXXX",
+    value: "+92 333 333 6282",
     description: "Direct calls for urgent projects",
-    action: "tel:+92XXXXXXXXX",
+    action: "tel:+923333336282",
     primary: false,
   },
 ];
@@ -92,7 +92,7 @@ export function ContactSection() {
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText("hello@pinetech.pk");
+    await navigator.clipboard.writeText("contact@pinetech.pk");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
