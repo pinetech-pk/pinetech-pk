@@ -26,6 +26,13 @@ const staggerChildren = {
   },
 };
 
+const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
+
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -128,11 +135,20 @@ export function HeroSection() {
             variants={fadeInUp}
             className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
           >
-            <Button size="lg" variant="pine" className="group">
+            <Button
+              size="lg"
+              variant="pine"
+              className="group"
+              onClick={() => scrollToSection("projects")}
+            >
               View My Projects
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button size="lg" variant="outline">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => scrollToSection("about")}
+            >
               Read My Story
             </Button>
           </motion.div>

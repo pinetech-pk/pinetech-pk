@@ -15,6 +15,7 @@ import {
   Code,
   Users,
   CheckCircle,
+  ArrowRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -273,9 +274,12 @@ export function ContactSection() {
                 <p className="text-sm text-muted-foreground mb-4">
                   Typical response time: Within 24 hours for project inquiries.
                 </p>
-                <Button variant="pine" size="sm" className="w-full" asChild>
-                  <Link href="/book-appointment">Book My Appointment</Link>
-                </Button>
+                <Link href="/lets-work-together">
+                  <Button variant="pine" className="w-full group">
+                    Let&apos;s Work Together
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

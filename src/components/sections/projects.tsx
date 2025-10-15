@@ -44,7 +44,7 @@ const projects = [
     icon: Heart,
     gradient: "from-green-500 to-emerald-600",
     bgColor: "bg-green-50 dark:bg-green-950/20",
-    link: "https://mealplanner.pk",
+    link: "https://mealplan.pk",
   },
   {
     id: 1,
@@ -107,7 +107,7 @@ const projects = [
     description:
       "Specialized platform for Saudi traders with curated content, signal validation, and role-driven community features.",
     role: "Fintech Strategist, Platform Architect & Developer",
-    status: "In Production",
+    status: "Coming Soon",
     stack: [
       "Next.js",
       "React",
@@ -124,7 +124,7 @@ const projects = [
     icon: BarChart3,
     gradient: "from-orange-500 to-red-600",
     bgColor: "bg-orange-50 dark:bg-orange-950/20",
-    link: "https://tadawulinsight.com",
+    link: null,
   },
 ];
 
@@ -340,17 +340,22 @@ export function ProjectsSection() {
                                 <Button
                                   variant="pine"
                                   className="w-full group"
+                                  disabled={!project.link}
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    window.open(
-                                      project.link,
-                                      "_blank",
-                                      "noopener,noreferrer"
-                                    );
+                                    if (project.link) {
+                                      window.open(
+                                        project.link,
+                                        "_blank",
+                                        "noopener,noreferrer"
+                                      );
+                                    }
                                   }}
                                 >
                                   <Globe className="mr-2 h-4 w-4" />
-                                  View Live Project
+                                  {project.link
+                                    ? "View Live Project"
+                                    : "Launching Soon"}
                                   <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </Button>
                               </div>
