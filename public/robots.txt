@@ -1,0 +1,10 @@
+# public/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.pinetech.pk/sitemap.xml
+
+# Crawl-delay (optional, helps with server load)
+Crawl-delay: 1
