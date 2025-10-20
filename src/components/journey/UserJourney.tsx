@@ -11,6 +11,54 @@ import { ContactForm } from "./ContactForm";
 import { SuccessPage } from "./SuccessPage";
 import { ProgressIndicator, StepNavigation } from "./utility-components";
 
+// Import step data types
+type DeveloperStepData =
+  | { experienceLevel: "junior" | "mid" | "senior" | "lead" }
+  | { technologies: string[] }
+  | {
+      workPreference: "freelance" | "part_time" | "full_time" | "project_based";
+      availability: "immediate" | "two_weeks" | "one_month" | "flexible";
+    }
+  | {
+      projectInterest: "startup" | "established" | "agency" | "open_source";
+      remotePref: "remote_only" | "hybrid" | "onsite" | "flexible";
+    }
+  | null;
+
+type InvestorStepData =
+  | { investmentRange: "small" | "medium" | "large" | "flexible" }
+  | { investmentType: "equity" | "revenue_share" | "profit_share" | "hybrid" }
+  | { industries: string[] }
+  | {
+      timeline: "immediate" | "one_month" | "three_months" | "exploring";
+      involvement: "passive" | "advisory" | "active" | "hands_on";
+    }
+  | null;
+
+type EntrepreneurStepData =
+  | { projectStage: "idea" | "planning" | "mvp_ready" | "launched" }
+  | {
+      projectType: "web_app" | "mobile_app" | "saas" | "marketplace" | "other";
+      otherDescription?: string;
+    }
+  | {
+      budget:
+        | "bootstrap"
+        | "seed_funded"
+        | "investor_backed"
+        | "revenue_generating";
+      estimatedBudget?: string;
+    }
+  | {
+      partnershipType:
+        | "developer_only"
+        | "cofounder_equity"
+        | "hybrid"
+        | "consulting";
+      timeline: "urgent" | "one_month" | "three_months" | "flexible";
+    }
+  | null;
+
 export function UserJourney() {
   const {
     currentStep,
@@ -77,7 +125,7 @@ export function UserJourney() {
         return (
           <DeveloperSteps
             step={currentStep}
-            formData={stepData as any}
+            formData={stepData as DeveloperStepData}
             onUpdateFormData={updateFormData}
           />
         );
@@ -85,7 +133,7 @@ export function UserJourney() {
         return (
           <InvestorSteps
             step={currentStep}
-            formData={stepData as any}
+            formData={stepData as InvestorStepData}
             onUpdateFormData={updateFormData}
           />
         );
@@ -93,7 +141,7 @@ export function UserJourney() {
         return (
           <EntrepreneurSteps
             step={currentStep}
-            formData={stepData as any}
+            formData={stepData as EntrepreneurStepData}
             onUpdateFormData={updateFormData}
           />
         );
