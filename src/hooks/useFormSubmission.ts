@@ -59,7 +59,7 @@ export const useFormSubmission = () => {
         });
         return false;
       }
-    } catch (error) {
+    } catch {
       setSubmissionResult({
         success: false,
         message: "Network error. Please check your connection and try again.",

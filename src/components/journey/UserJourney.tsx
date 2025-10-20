@@ -1,7 +1,21 @@
 import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
-import { useUserJourney } from "@/hooks/useUserJourney";
+import {
+  useUserJourney,
+  type DeveloperStep1Data,
+  type DeveloperStep2Data,
+  type DeveloperStep3Data,
+  type DeveloperStep4Data,
+  type InvestorStep1Data,
+  type InvestorStep2Data,
+  type InvestorStep3Data,
+  type InvestorStep4Data,
+  type EntrepreneurStep1Data,
+  type EntrepreneurStep2Data,
+  type EntrepreneurStep3Data,
+  type EntrepreneurStep4Data,
+} from "@/hooks/useUserJourney";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
 import { CategorySelector } from "./CategorySelector";
 import { DeveloperSteps } from "./DeveloperSteps";
@@ -10,60 +24,6 @@ import { EntrepreneurSteps } from "./EntrepreneurSteps";
 import { ContactForm } from "./ContactForm";
 import { SuccessPage } from "./SuccessPage";
 import { ProgressIndicator, StepNavigation } from "./utility-components";
-
-// Import step data types - these should match the component prop types
-type DeveloperStepData =
-  | { experienceLevel: "junior" | "mid" | "senior" | "lead" }
-  | { technologies: string[] }
-  | {
-      workPreference: "freelance" | "part_time" | "full_time" | "project_based";
-      availability: "immediate" | "two_weeks" | "one_month" | "flexible";
-    }
-  | {
-      projectInterest: "startup" | "established" | "agency" | "open_source";
-      remotePref: "remote_only" | "hybrid" | "onsite" | "flexible";
-    }
-  | null;
-
-type InvestorStepData =
-  | { investmentRange: "small" | "medium" | "large" | "flexible" }
-  | { investmentType: "equity" | "revenue_share" | "profit_share" | "hybrid" }
-  | { industries: string[] }
-  | {
-      timeline: "immediate" | "one_month" | "three_months" | "exploring";
-      involvement: "passive" | "advisory" | "active" | "hands_on";
-    }
-  | null;
-
-type EntrepreneurStepData =
-  | { projectStage: "idea" | "planning" | "mvp_ready" | "launched" }
-  | {
-      projectType: "web_app" | "mobile_app" | "saas" | "marketplace" | "other";
-      otherDescription?: string;
-    }
-  | {
-      budget:
-        | "bootstrap"
-        | "seed_funded"
-        | "investor_backed"
-        | "revenue_generating";
-      estimatedBudget?: string;
-    }
-  | {
-      partnershipType:
-        | "developer_only"
-        | "cofounder_equity"
-        | "hybrid"
-        | "consulting";
-      timeline: "urgent" | "one_month" | "three_months" | "flexible";
-    }
-  | null;
-
-// Union type that can be passed to step components
-type StepDataUnion =
-  | DeveloperStepData
-  | InvestorStepData
-  | EntrepreneurStepData;
 
 export function UserJourney() {
   const {
@@ -110,44 +70,71 @@ export function UserJourney() {
       );
     }
 
-    // Get current step data
-    const stepData = (() => {
-      switch (currentStep) {
-        case 1:
-          return formData.step1;
-        case 2:
-          return formData.step2;
-        case 3:
-          return formData.step3;
-        case 4:
-          return formData.step4;
-        default:
-          return null;
-      }
-    })();
-
     if (currentStep >= 1 && currentStep <= 4) {
       if (formData.userType === "developer") {
+        const developerStepData = (() => {
+          switch (currentStep) {
+            case 1:
+              return formData.step1 as DeveloperStep1Data | null;
+            case 2:
+              return formData.step2 as DeveloperStep2Data | null;
+            case 3:
+              return formData.step3 as DeveloperStep3Data | null;
+            case 4:
+              return formData.step4 as DeveloperStep4Data | null;
+            default:
+              return null;
+          }
+        })();
+
         return (
           <DeveloperSteps
             step={currentStep}
-            formData={stepData as DeveloperStepData}
+            formData={developerStepData}
             onUpdateFormData={updateFormData}
           />
         );
       } else if (formData.userType === "investor") {
+        const investorStepData = (() => {
+          switch (currentStep) {
+            case 1:
+              return formData.step1 as InvestorStep1Data | null;
+            case 2:
+              return formData.step2 as InvestorStep2Data | null;
+            case 3:
+              return formData.step3 as InvestorStep3Data | null;
+            case 4:
+              return formData.step4 as InvestorStep4Data | null;
+            default:
+              return null;
+          }
+        })();
         return (
           <InvestorSteps
             step={currentStep}
-            formData={stepData as InvestorStepData}
+            formData={investorStepData}
             onUpdateFormData={updateFormData}
           />
         );
       } else if (formData.userType === "entrepreneur") {
+        const entrepreneurStepData = (() => {
+          switch (currentStep) {
+            case 1:
+              return formData.step1 as EntrepreneurStep1Data | null;
+            case 2:
+              return formData.step2 as EntrepreneurStep2Data | null;
+            case 3:
+              return formData.step3 as EntrepreneurStep3Data | null;
+            case 4:
+              return formData.step4 as EntrepreneurStep4Data | null;
+            default:
+              return null;
+          }
+        })();
         return (
           <EntrepreneurSteps
             step={currentStep}
-            formData={stepData as EntrepreneurStepData}
+            formData={entrepreneurStepData}
             onUpdateFormData={updateFormData}
           />
         );
