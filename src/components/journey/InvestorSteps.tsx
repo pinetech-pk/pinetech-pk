@@ -30,7 +30,11 @@ interface InvestorStepsProps {
   formData: InvestorStepData;
   onUpdateFormData: (
     step: "step1" | "step2" | "step3" | "step4",
-    data: any
+    data:
+      | InvestorStep1Data
+      | InvestorStep2Data
+      | InvestorStep3Data
+      | InvestorStep4Data
   ) => void;
 }
 
@@ -83,7 +87,10 @@ export function InvestorSteps({
                     : "border-border hover:border-pine-200"
                 )}
                 onClick={() =>
-                  onUpdateFormData("step1", { investmentRange: range.id })
+                  onUpdateFormData("step1", {
+                    investmentRange:
+                      range.id as InvestorStep1Data["investmentRange"],
+                  })
                 }
               >
                 <div className="font-medium">{range.label}</div>
@@ -139,7 +146,10 @@ export function InvestorSteps({
                     : "border-border hover:border-pine-200"
                 )}
                 onClick={() =>
-                  onUpdateFormData("step2", { investmentType: type.id })
+                  onUpdateFormData("step2", {
+                    investmentType:
+                      type.id as InvestorStep2Data["investmentType"],
+                  })
                 }
               >
                 <div className="font-medium">{type.label}</div>
@@ -237,7 +247,8 @@ export function InvestorSteps({
                       onChange={(e) =>
                         onUpdateFormData("step4", {
                           ...(formData as InvestorStep4Data),
-                          timeline: e.target.value,
+                          timeline: e.target
+                            .value as InvestorStep4Data["timeline"],
                         })
                       }
                     />
@@ -288,7 +299,8 @@ export function InvestorSteps({
                         onChange={(e) =>
                           onUpdateFormData("step4", {
                             ...(formData as InvestorStep4Data),
-                            involvement: e.target.value,
+                            involvement: e.target
+                              .value as InvestorStep4Data["involvement"],
                           })
                         }
                       />

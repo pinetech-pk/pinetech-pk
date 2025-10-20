@@ -40,7 +40,11 @@ interface EntrepreneurStepsProps {
   formData: EntrepreneurStepData;
   onUpdateFormData: (
     step: "step1" | "step2" | "step3" | "step4",
-    data: any
+    data:
+      | EntrepreneurStep1Data
+      | EntrepreneurStep2Data
+      | EntrepreneurStep3Data
+      | EntrepreneurStep4Data
   ) => void;
 }
 
@@ -93,7 +97,13 @@ export function EntrepreneurSteps({
                     : "border-border hover:border-pine-200"
                 )}
                 onClick={() =>
-                  onUpdateFormData("step1", { projectStage: stage.id })
+                  onUpdateFormData("step1", {
+                    projectStage: stage.id as
+                      | "idea"
+                      | "planning"
+                      | "mvp_ready"
+                      | "launched",
+                  })
                 }
               >
                 <div className="font-medium">{stage.label}</div>
@@ -155,7 +165,12 @@ export function EntrepreneurSteps({
                 onClick={() =>
                   onUpdateFormData("step2", {
                     ...(formData as EntrepreneurStep2Data),
-                    projectType: type.id,
+                    projectType: type.id as
+                      | "web_app"
+                      | "mobile_app"
+                      | "saas"
+                      | "marketplace"
+                      | "other",
                   })
                 }
               >
@@ -234,7 +249,11 @@ export function EntrepreneurSteps({
                 onClick={() =>
                   onUpdateFormData("step3", {
                     ...(formData as EntrepreneurStep3Data),
-                    budget: budget.id,
+                    budget: budget.id as
+                      | "bootstrap"
+                      | "seed_funded"
+                      | "investor_backed"
+                      | "revenue_generating",
                   })
                 }
               >
@@ -320,7 +339,11 @@ export function EntrepreneurSteps({
                         onChange={(e) =>
                           onUpdateFormData("step4", {
                             ...(formData as EntrepreneurStep4Data),
-                            partnershipType: e.target.value,
+                            partnershipType: e.target.value as
+                              | "developer_only"
+                              | "cofounder_equity"
+                              | "hybrid"
+                              | "consulting",
                           })
                         }
                       />
@@ -368,7 +391,11 @@ export function EntrepreneurSteps({
                       onChange={(e) =>
                         onUpdateFormData("step4", {
                           ...(formData as EntrepreneurStep4Data),
-                          timeline: e.target.value,
+                          timeline: e.target.value as
+                            | "urgent"
+                            | "one_month"
+                            | "three_months"
+                            | "flexible",
                         })
                       }
                     />
