@@ -5,6 +5,8 @@ import { useUserJourney } from "@/hooks/useUserJourney";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
 import { CategorySelector } from "./CategorySelector";
 import { DeveloperSteps } from "./DeveloperSteps";
+import { InvestorSteps } from "./InvestorSteps";
+import { EntrepreneurSteps } from "./EntrepreneurSteps";
 import { ContactForm } from "./ContactForm";
 import { SuccessPage } from "./SuccessPage";
 import { ProgressIndicator, StepNavigation } from "./utility-components";
@@ -38,20 +40,67 @@ export function UserJourney() {
     }
   };
 
-  // Helper function to get step data safely
-  const getStepData = (step: number) => {
-    switch (step) {
-      case 1:
-        return formData.step1;
-      case 2:
-        return formData.step2;
-      case 3:
-        return formData.step3;
-      case 4:
-        return formData.step4;
-      default:
-        return null;
+  // Render appropriate steps based on user type
+  const renderSteps = () => {
+    if (currentStep === 5) {
+      return (
+        <ContactForm
+          formData={formData.finalForm}
+          onUpdateFormData={(data) => updateFormData("finalForm", data)}
+          submissionError={
+            submissionResult?.success === false
+              ? submissionResult.message
+              : null
+          }
+        />
+      );
     }
+
+    // Get current step data
+    const stepData = (() => {
+      switch (currentStep) {
+        case 1:
+          return formData.step1;
+        case 2:
+          return formData.step2;
+        case 3:
+          return formData.step3;
+        case 4:
+          return formData.step4;
+        default:
+          return null;
+      }
+    })();
+
+    if (currentStep >= 1 && currentStep <= 4) {
+      if (formData.userType === "developer") {
+        return (
+          <DeveloperSteps
+            step={currentStep}
+            formData={stepData as any}
+            onUpdateFormData={updateFormData}
+          />
+        );
+      } else if (formData.userType === "investor") {
+        return (
+          <InvestorSteps
+            step={currentStep}
+            formData={stepData as any}
+            onUpdateFormData={updateFormData}
+          />
+        );
+      } else if (formData.userType === "entrepreneur") {
+        return (
+          <EntrepreneurSteps
+            step={currentStep}
+            formData={stepData as any}
+            onUpdateFormData={updateFormData}
+          />
+        );
+      }
+    }
+
+    return null;
   };
 
   return (
@@ -76,29 +125,7 @@ export function UserJourney() {
           >
             <Card className="p-8">
               <CardContent className="p-0">
-                {/* Developer Journey Steps */}
-                {formData.userType === "developer" && currentStep <= 4 && (
-                  <DeveloperSteps
-                    step={currentStep}
-                    formData={getStepData(currentStep)}
-                    onUpdateFormData={updateFormData}
-                  />
-                )}
-
-                {/* Contact Form (Step 5) */}
-                {currentStep === 5 && (
-                  <ContactForm
-                    formData={formData.finalForm}
-                    onUpdateFormData={(data) =>
-                      updateFormData("finalForm", data)
-                    }
-                    submissionError={
-                      submissionResult?.success === false
-                        ? submissionResult.message
-                        : null
-                    }
-                  />
-                )}
+                {renderSteps()}
 
                 {/* Navigation buttons */}
                 <StepNavigation
