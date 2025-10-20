@@ -7,6 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+// Define step response types
+type StepResponses = {
+  step1?: Record<string, unknown>;
+  step2?: Record<string, unknown>;
+  step3?: Record<string, unknown>;
+  step4?: Record<string, unknown>;
+  [key: string]: unknown;
+};
+
 interface Submission {
   id: number;
   userType: string;
@@ -14,7 +23,7 @@ interface Submission {
   email: string;
   phone: string | null;
   message: string | null;
-  stepResponses: any;
+  stepResponses: StepResponses;
   submissionType: string;
   status: string;
   createdAt: string;
@@ -214,7 +223,7 @@ export default function AdminDashboard() {
                                 <div>📱 {submission.phone}</div>
                               )}
                               <div className="text-xs">
-                                🕒{" "}
+                                🕐{" "}
                                 {new Date(
                                   submission.createdAt
                                 ).toLocaleString()}
