@@ -1,12 +1,16 @@
 import { cn } from "@/lib/utils";
 import {
-  Step1Data,
-  Step2Data,
-  Step3Data,
-  Step4Data,
+  DeveloperStep1Data,
+  DeveloperStep2Data,
+  DeveloperStep3Data,
+  DeveloperStep4Data,
 } from "@/hooks/useUserJourney";
 
-type DeveloperStepData = Step1Data | Step2Data | Step3Data | Step4Data;
+type DeveloperStepData =
+  | DeveloperStep1Data
+  | DeveloperStep2Data
+  | DeveloperStep3Data
+  | DeveloperStep4Data;
 
 interface DeveloperStepsProps {
   step: number;
@@ -53,11 +57,12 @@ export function DeveloperSteps({
                   type="checkbox"
                   className="w-4 h-4 text-pine-600 rounded focus:ring-pine-500"
                   checked={
-                    (formData as Step1Data)?.skills?.includes(skill) || false
+                    (formData as DeveloperStep1Data)?.skills?.includes(skill) ||
+                    false
                   }
                   onChange={(e) => {
                     const currentSkills: string[] =
-                      (formData as Step1Data)?.skills || [];
+                      (formData as DeveloperStep1Data)?.skills || [];
                     const updatedSkills = e.target.checked
                       ? [...currentSkills, skill]
                       : currentSkills.filter((s) => s !== skill);
@@ -107,13 +112,13 @@ export function DeveloperSteps({
                 key={stage.id}
                 className={cn(
                   "p-4 border-2 rounded-lg cursor-pointer transition-all duration-200",
-                  (formData as Step2Data)?.stage === stage.id
+                  (formData as DeveloperStep2Data)?.stage === stage.id
                     ? "border-pine-500 bg-pine-50 dark:bg-pine-950/20"
                     : "border-border hover:border-pine-200"
                 )}
                 onClick={() =>
                   onUpdateFormData("step2", {
-                    stage: stage.id as Step2Data["stage"],
+                    stage: stage.id as DeveloperStep2Data["stage"],
                   })
                 }
               >
@@ -163,13 +168,13 @@ export function DeveloperSteps({
                 key={interest.id}
                 className={cn(
                   "p-4 border-2 rounded-lg cursor-pointer transition-all duration-200",
-                  (formData as Step3Data)?.interest === interest.id
+                  (formData as DeveloperStep3Data)?.interest === interest.id
                     ? "border-pine-500 bg-pine-50 dark:bg-pine-950/20"
                     : "border-border hover:border-pine-200"
                 )}
                 onClick={() =>
                   onUpdateFormData("step3", {
-                    interest: interest.id as Step3Data["interest"],
+                    interest: interest.id as DeveloperStep3Data["interest"],
                   })
                 }
               >
@@ -214,13 +219,14 @@ export function DeveloperSteps({
                       value={option.id}
                       className="w-4 h-4 text-pine-600 focus:ring-pine-500"
                       checked={
-                        (formData as Step4Data)?.availability === option.id
+                        (formData as DeveloperStep4Data)?.availability ===
+                        option.id
                       }
                       onChange={(e) =>
                         onUpdateFormData("step4", {
-                          ...(formData as Step4Data),
+                          ...(formData as DeveloperStep4Data),
                           availability: e.target
-                            .value as Step4Data["availability"],
+                            .value as DeveloperStep4Data["availability"],
                         })
                       }
                     />
@@ -254,12 +260,14 @@ export function DeveloperSteps({
                       value={option.id}
                       className="w-4 h-4 text-pine-600 focus:ring-pine-500"
                       checked={
-                        (formData as Step4Data)?.commitment === option.id
+                        (formData as DeveloperStep4Data)?.commitment ===
+                        option.id
                       }
                       onChange={(e) =>
                         onUpdateFormData("step4", {
-                          ...(formData as Step4Data),
-                          commitment: e.target.value as Step4Data["commitment"],
+                          ...(formData as DeveloperStep4Data),
+                          commitment: e.target
+                            .value as DeveloperStep4Data["commitment"],
                         })
                       }
                     />
