@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
 import { userSubmissions } from "@/lib/db/schema";
+import { authOptions } from "@/lib/auth";
 
-// POST - Create new user submission
+// POST - Create new user submission (public - no auth required)
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -70,13 +72,24 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET - Fetch all user submissions (for admin purposes)
+// GET - Fetch all user submissions (protected - admin only)
 export async function GET() {
   try {
+    // Server-side authentication check
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { error: "Unauthorized. Please log in to access this resource." },
+        { status: 401 }
+      );
+    }
+
     const submissions = await db
       .select()
       .from(userSubmissions)
       .orderBy(userSubmissions.createdAt);
+    
     return NextResponse.json(submissions);
   } catch (error) {
     console.error("Database GET error:", error);
