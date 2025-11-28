@@ -90,25 +90,23 @@
   --animate-slide-down: slideDown 0.25s ease-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --muted: #262626;
-    --muted-foreground: #a3a3a3;
-    --border: #262626;
-    --input: #262626;
-    --ring: #22c55e;
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --border: #262626;
+  --input: #262626;
+  --ring: #22c55e;
 
-    --card: #0a0a0a;
-    --card-foreground: #ededed;
-    --primary: #22c55e;
-    --primary-foreground: #0a0a0a;
-    --secondary: #262626;
-    --secondary-foreground: #ededed;
-    --accent: #262626;
-    --accent-foreground: #ededed;
-  }
+  --card: #0a0a0a;
+  --card-foreground: #ededed;
+  --primary: #22c55e;
+  --primary-foreground: #0a0a0a;
+  --secondary: #262626;
+  --secondary-foreground: #ededed;
+  --accent: #262626;
+  --accent-foreground: #ededed;
 }
 
 /* Base styles */
