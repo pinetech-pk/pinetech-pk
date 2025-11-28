@@ -4,7 +4,7 @@ import { consultationBookings } from "@/lib/db/schema";
 import { eq, and, gte, lte } from "drizzle-orm";
 
 // Time slot configuration
-export const TIME_SLOTS = {
+const TIME_SLOTS = {
   morning: {
     label: "Morning",
     time: "10:30 AM - 11:00 AM",

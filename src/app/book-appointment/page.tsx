@@ -80,7 +80,7 @@ export default function BookAppointmentPage() {
       if (!response.ok) throw new Error("Failed to fetch slots");
       const data = await response.json();
       setAvailableSlots(data.slots);
-    } catch (err) {
+    } catch {
       setError("Unable to load available slots. Please try again.");
     } finally {
       setIsLoading(false);
