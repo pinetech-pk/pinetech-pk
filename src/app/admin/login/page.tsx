@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -163,12 +164,12 @@ export default function AdminLoginPage() {
 
         {/* Back to home link */}
         <div className="text-center mt-6">
-          <a
+          <Link
             href="/"
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             ← Back to Homepage
-          </a>
+          </Link>
         </div>
       </div>
     </div>

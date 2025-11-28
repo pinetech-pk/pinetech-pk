@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/shared/header";
@@ -49,13 +49,7 @@ export default function AdminDashboard() {
     }
   }, [status, router]);
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      fetchSubmissions();
-    }
-  }, [status]);
-
-  const fetchSubmissions = async () => {
+  const fetchSubmissions = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch("/api/user-submissions");
@@ -69,7 +63,13 @@ export default function AdminDashboard() {
       console.error("Error fetching submissions:", error);
     }
     setLoading(false);
-  };
+  }, [router]);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      fetchSubmissions();
+    }
+  }, [status, fetchSubmissions]);
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/admin/login" });
@@ -119,8 +119,12 @@ export default function AdminDashboard() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right hidden sm:block">
-                    <p className="text-sm font-medium">{session?.user?.email}</p>
-                    <p className="text-xs text-muted-foreground">Administrator</p>
+                    <p className="text-sm font-medium">
+                      {session?.user?.email}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Administrator
+                    </p>
                   </div>
                   <Button
                     variant="outline"
@@ -203,7 +207,10 @@ export default function AdminDashboard() {
                     size="sm"
                   >
                     Developers (
-                    {submissions.filter((s) => s.userType === "developer").length}
+                    {
+                      submissions.filter((s) => s.userType === "developer")
+                        .length
+                    }
                     )
                   </Button>
                   <Button
@@ -212,7 +219,11 @@ export default function AdminDashboard() {
                     size="sm"
                   >
                     Investors (
-                    {submissions.filter((s) => s.userType === "investor").length})
+                    {
+                      submissions.filter((s) => s.userType === "investor")
+                        .length
+                    }
+                    )
                   </Button>
                   <Button
                     variant={filter === "entrepreneur" ? "pine" : "outline"}
@@ -233,7 +244,9 @@ export default function AdminDashboard() {
                   onClick={fetchSubmissions}
                   disabled={loading}
                 >
-                  <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+                  <RefreshCw
+                    className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`}
+                  />
                   Refresh
                 </Button>
               </div>
