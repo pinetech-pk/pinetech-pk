@@ -52,7 +52,7 @@ export function SuccessPage({ submissionId }: SuccessPageProps) {
           guarantees a response within your selected time slot.
         </p>
         <Button variant="pine" className="w-full" asChild>
-          <Link href="/book-appointment">Book Free Consultation</Link>
+          <Link href={`/book-appointment?ref=${submissionId}`}>Book Free Consultation</Link>
         </Button>
       </div>
 

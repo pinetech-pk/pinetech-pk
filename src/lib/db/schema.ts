@@ -7,6 +7,8 @@ import {
   varchar,
   uuid,
   boolean,
+  date,
+  integer,
 } from "drizzle-orm/pg-core";
 
 // Test table for database connection verification
@@ -50,6 +52,23 @@ export const chatRooms = pgTable("chat_rooms", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// Consultation Bookings - For scheduling calls with clients
+export const consultationBookings = pgTable("consultation_bookings", {
+  id: serial("id").primaryKey(),
+  submissionId: integer("submission_id"), // Optional link to user_submissions
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 50 }).notNull(),
+  bookingDate: date("booking_date").notNull(), // The date of the consultation
+  timeSlot: varchar("time_slot", { length: 20 }).notNull(), // 'morning' or 'evening'
+  callType: varchar("call_type", { length: 20 }).notNull(), // 'voice' or 'video'
+  preferredTool: varchar("preferred_tool", { length: 20 }).notNull(), // 'phone', 'whatsapp', 'zoom'
+  status: varchar("status", { length: 20 }).default("pending").notNull(), // 'pending', 'confirmed', 'completed', 'cancelled'
+  notes: text("notes"), // Additional notes from client
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Types for TypeScript
 export type TestSubmission = typeof testSubmissions.$inferSelect;
 export type NewTestSubmission = typeof testSubmissions.$inferInsert;
@@ -59,3 +78,6 @@ export type NewUserSubmission = typeof userSubmissions.$inferInsert;
 
 export type ChatRoom = typeof chatRooms.$inferSelect;
 export type NewChatRoom = typeof chatRooms.$inferInsert;
+
+export type ConsultationBooking = typeof consultationBookings.$inferSelect;
+export type NewConsultationBooking = typeof consultationBookings.$inferInsert;

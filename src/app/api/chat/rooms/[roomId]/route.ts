@@ -41,7 +41,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         );
       }
       // Don't expose the accessKey back to the client
-      const { accessKey: _, ...safeRoom } = room;
+      const safeRoom = { ...room, accessKey: undefined };
       return NextResponse.json({ room: safeRoom, role: "client" });
     }
 
@@ -117,7 +117,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
         .returning();
 
       // Don't expose the accessKey
-      const { accessKey: _, ...safeRoom } = updatedRoom;
+      const safeRoom = { ...updatedRoom, accessKey: undefined };
       return NextResponse.json({ room: safeRoom });
     }
 
