@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
@@ -45,7 +45,27 @@ interface BookingForm {
 
 type Step = "date" | "time" | "type" | "tool" | "details" | "confirm" | "success";
 
-export default function BookAppointmentPage() {
+// Loading fallback component
+function BookingLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-zinc-950">
+      <Header />
+      <main className="pt-24 pb-16">
+        <div className="container px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+// Main booking content component
+function BookingContent() {
   const searchParams = useSearchParams();
   const submissionId = searchParams.get("ref");
 
@@ -641,5 +661,14 @@ export default function BookAppointmentPage() {
 
       <Footer />
     </div>
+  );
+}
+
+// Page component with Suspense boundary
+export default function BookAppointmentPage() {
+  return (
+    <Suspense fallback={<BookingLoadingFallback />}>
+      <BookingContent />
+    </Suspense>
   );
 }
