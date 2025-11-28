@@ -173,8 +173,8 @@ export function StorySection() {
             </h3>
 
             <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-pine-600 via-pine-400 to-pine-600 rounded-full opacity-20"></div>
+              {/* Timeline line - left on mobile, center on desktop */}
+              <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 w-1 h-full bg-gradient-to-b from-pine-600 via-pine-400 to-pine-600 rounded-full opacity-20"></div>
 
               {timelineItems.map((item, index) => (
                 <motion.div
@@ -184,12 +184,12 @@ export function StorySection() {
                     index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                   } mb-12 last:mb-0`}
                 >
-                  {/* Timeline dot */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-pine-gradient rounded-full border-4 border-background z-10 shadow-lg"></div>
+                  {/* Timeline dot - left on mobile, center on desktop */}
+                  <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-pine-gradient rounded-full border-4 border-background z-10 shadow-lg"></div>
 
-                  {/* Content card */}
+                  {/* Content card - offset from left line on mobile */}
                   <div
-                    className={`w-full md:w-5/12 ${index % 2 === 0 ? "md:pr-8" : "md:pl-8"}`}
+                    className={`w-full pl-10 md:pl-0 md:w-5/12 ${index % 2 === 0 ? "md:pr-8" : "md:pl-8"}`}
                   >
                     <Card className="p-6 hover:shadow-lg transition-shadow duration-200">
                       <CardContent className="p-0">
