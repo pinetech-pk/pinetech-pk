@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Facebook, Linkedin } from "lucide-react";
 import { Logo } from "./logo";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -37,6 +38,26 @@ export function Footer() {
               <span>Based in Karachi, Pakistan</span>
               <Separator orientation="vertical" className="h-4" />
               <span>Working Globally</span>
+            </div>
+            <div className="flex items-center space-x-3 mt-4">
+              <Link
+                href="https://web.facebook.com/pinetechpk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://www.linkedin.com/company/pinetechpk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
+              </Link>
             </div>
           </div>
 
